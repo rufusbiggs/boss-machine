@@ -4,13 +4,11 @@ const Joi = require('joi');
 module.exports = minionsRouter;
 
 const {
-    createMeeting,
     getAllFromDatabase,
     getFromDatabaseById,
     addToDatabase,
     updateInstanceInDatabase,
     deleteFromDatabasebyId,
-    deleteAllFromDatabase,
 } = require('./db');
 
 // set minion parameters
@@ -46,17 +44,17 @@ minionsRouter.post('/', (req, res, next) => {
 
 // PUT to edit minion by id
 minionsRouter.put('/:minionId', (req, res, next) => {
-    const { error } = validateMinion(req.body);
-    if (error) {
-        return res.status(400).send(error.details[0].message)
-    }
+    // const { error } = validateMinion(req.body);
+    // if (error) {
+    //     return res.status(400).send(error.details[0].message)
+    // }
     const updatedMinion = updateInstanceInDatabase('minions', req.body);
     res.status(200).send(updatedMinion);
 });
 
 // DELETE minion by id
 minionsRouter.delete('/:minionId', (req, res, next) => {
-    const deletedMinion = deleteFromDatabasebyId('minions', req.minion);
+    const deletedMinion = deleteFromDatabasebyId('minions', req.minion.id);
     res.status(204).send(deletedMinion);
 });
 
